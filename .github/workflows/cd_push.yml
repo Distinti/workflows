@@ -49,8 +49,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ inputs.image }}
           tag: ${{ steps.serialize_branch.outputs.branch }}
-          build_args: |
-            REPO_AUTH=${{ secrets.GH_ACCESS_TOKEN }}
+          secrets: |
+            repo_auth=${{ secrets.GH_ACCESS_TOKEN }}
           extra_tags: |
             ${{ inputs.image }}:${{ github.sha }}
 
