@@ -20,7 +20,6 @@ jobs:
         overlay:
           [
             "deploy/overlays/euc1",
-            "deploy/overlays/euc1-testing",
             "deploy/overlays/euc1-staging",
           ]
     steps:
@@ -66,9 +65,6 @@ jobs:
       - id: argocd
         shell: bash
         run: |
-          if [ "$GIT_REF" == "development" ]; then
-            echo "server-url=argocd.euc1.t.get-protocol.dev" >> $GITHUB_OUTPUT
-            echo "token=$EUC1TESTING_TOKEN" >> $GITHUB_OUTPUT
           elif [ "$GIT_REF" == "master" ]; then
             echo "server-url=argocd.euc1.s.get-protocol.dev" >> $GITHUB_OUTPUT
             echo "token=$EUC1STAGING_TOKEN" >> $GITHUB_OUTPUT
@@ -78,7 +74,6 @@ jobs:
           fi
         env:
           GIT_REF: ${{ github.base_ref }}
-          EUC1TESTING_TOKEN: ${{ secrets.ARGOCD_EUC1TESTING_API_AUTH }}
           EUC1STAGING_TOKEN: ${{ secrets.ARGOCD_EUC1STAGING_API_AUTH }}
           EUC1_TOKEN: ${{ secrets.ARGOCD_EUC1_API_AUTH }}
 

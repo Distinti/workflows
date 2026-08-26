@@ -60,15 +60,11 @@ jobs:
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
-    if: github.ref_name  == 'development' || github.ref_name  == 'master' || github.ref_name  == 'production'
+    if: github.ref_name  == 'master' || github.ref_name  == 'production'
     steps:
       - id: argocd
         shell: bash
         run: |
-          if [ "$GIT_REF" == "development" ]; then
-            echo "server-url=argocd.euc1.t.get-protocol.dev" >> $GITHUB_OUTPUT
-            echo "token=$EUC1TESTING_TOKEN" >> $GITHUB_OUTPUT
-            echo "overlay=deploy/overlays/euc1-testing" >> $GITHUB_OUTPUT
           elif [ "$GIT_REF" == "master" ]; then
             echo "server-url=argocd.euc1.s.get-protocol.dev" >> $GITHUB_OUTPUT
             echo "token=$EUC1STAGING_TOKEN" >> $GITHUB_OUTPUT
@@ -80,7 +76,6 @@ jobs:
           fi
         env:
           GIT_REF: ${{ github.ref_name }}
-          EUC1TESTING_TOKEN: ${{ secrets.ARGOCD_EUC1TESTING_API_AUTH }}
           EUC1STAGING_TOKEN: ${{ secrets.ARGOCD_EUC1STAGING_API_AUTH }}
           EUC1_TOKEN: ${{ secrets.ARGOCD_EUC1_API_AUTH }}
 
@@ -125,7 +120,7 @@ jobs:
   dockle-lint:
     runs-on: [self-hosted, ubuntu20.04-self]
     needs: build
-    if: github.ref_name != 'development' && github.ref_name != 'master' && github.ref_name != 'production'
+    if: github.ref_name != 'master' && github.ref_name != 'production'
     steps:
       - name: Log in to GitHub Registry
         uses: docker/login-action@v2
