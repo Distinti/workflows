@@ -65,7 +65,7 @@ jobs:
       - id: argocd
         shell: bash
         run: |
-          elif [ "$GIT_REF" == "master" ]; then
+          if [ "$GIT_REF" == "master" ]; then
             echo "server-url=argocd.euc1.s.get-protocol.dev" >> $GITHUB_OUTPUT
             echo "token=$EUC1STAGING_TOKEN" >> $GITHUB_OUTPUT
           elif [ "$GIT_REF" == "production" ]; then
