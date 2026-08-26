@@ -17,11 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        overlay:
-          [
-            "deploy/overlays/euc1",
-            "deploy/overlays/euc1-staging",
-          ]
+        overlay: ["deploy/overlays/euc1", "deploy/overlays/euc1-staging"]
     steps:
       - uses: actions/checkout@v3
       - id: overlay_exists
