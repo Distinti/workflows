@@ -44,7 +44,7 @@ jobs:
 
       # Docker images
       - name: Build image using docker-build action
-        uses: GETProtocolLab/docker-build-action@master
+        uses: Distinti/docker-build-action@master
         with:
           password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ inputs.image }}
