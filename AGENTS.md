@@ -43,9 +43,12 @@ change like a production deploy.
 | `.github/workflows/cd_pr.yml`   | every pull request                   | prettier-check `deploy/`, validate overlays with kuberc, post ArgoCD diff |
 | `.github/workflows/lint.yml`    | pull request (this repo uses it too) | plain `prettier --check .`                                                |
 
-Inputs to `.github/workflows/cd_push.yml`: `image` (required, e.g.
-`ghcr.io/getprotocollab/<svc>`), `argocd_app_name` (required),
-`dockle_whitelist` (optional).
+Inputs to `.github/workflows/cd_push.yml`: `image` (required),
+`argocd_app_name` (required), `registry` (optional, defaults to `ghcr.io`),
+`aws_role_arn` (optional, defaults to the legacy Docker-cache role), and
+`dockle_whitelist` (optional). For ECR, pass the registry host and the
+repository-specific OIDC role created in `k8seks`; the build and Dockle jobs
+then authenticate without a long-lived registry secret.
 
 ## What a deploy actually is (`.github/workflows/cd_push.yml`)
 
@@ -60,9 +63,11 @@ name selects the environment:
 
 Flow on a deploy-branch push:
 
-1. **build** — `GETProtocolLab/docker-build-action` builds and pushes
-   `<image>:<branch>` + `<image>:<sha>` to ghcr.io (`REPO_AUTH` build-arg =
-   `GH_ACCESS_TOKEN` for private packages).
+1. **build** — `Distinti/docker-build-action` builds and pushes
+   `<image>:<branch>` + `<image>:<sha>` to the configured registry (`REPO_AUTH`
+   build-arg = `GH_ACCESS_TOKEN` for private packages). Transferred Distinti
+   services should use ECR with a repository-specific AWS OIDC role; existing
+   consumers remain on GHCR until they are transferred.
 2. **deploy-argocd** — mints a GitHub-App token (so it can push to protected
    branches), runs `kustomize edit set image … :<sha>` inside the consumer's
    overlay directory, prettier-formats the kustomization, and **auto-commits
