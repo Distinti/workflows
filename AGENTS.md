@@ -114,12 +114,11 @@ dev-stack (nothing to deploy).
 
 ## Org-level secrets consumed (via `secrets: inherit`)
 
-| Secret                                                 | Used for                                              |
-| ------------------------------------------------------ | ----------------------------------------------------- |
-| `GH_ACCESS_TOKEN`                                      | private-package auth inside docker builds             |
-| `ARGOCD_EUC1TESTING_API_AUTH` / `…STAGING…` / `…EUC1…` | ArgoCD API sync + diff, one per cluster               |
-| `WORKFLOWS_GITHUB_APP_ID` + `…_PRIVATE_KEY`            | GitHub App that commits deploys to protected branches |
-| `GH_PACKAGES_ACCESS`                                   | argocd-lovely-plugin token in the diff action         |
+| Secret                                                 | Used for                                                        |
+| ------------------------------------------------------ | --------------------------------------------------------------- |
+| `GH_ACCESS_TOKEN`                                      | private-package auth inside docker builds                       |
+| `ARGOCD_EUC1TESTING_API_AUTH` / `…STAGING…` / `…EUC1…` | ArgoCD API sync + diff, one per cluster                         |
+| `WORKFLOWS_GITHUB_APP_ID` + `…_PRIVATE_KEY`            | GitHub App for deploy commits and private workflow dependencies |
 
 ## Notes for agents
 
