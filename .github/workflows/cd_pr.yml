@@ -8,9 +8,11 @@ jobs:
     runs-on: [self-hosted, ubuntu20.04-self]
     steps:
       - uses: actions/checkout@v3
-      - uses: actionsx/prettier@master
+      - uses: actions/setup-node@v4
         with:
-          args: --check ./deploy
+          node-version: "22"
+      - name: Check deploy formatting
+        run: npx --yes prettier@3.6.2 --check ./deploy
 
   kuberc:
     runs-on: [self-hosted, ubuntu20.04-self]
