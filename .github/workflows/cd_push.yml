@@ -92,6 +92,9 @@ jobs:
       - uses: imranismail/setup-kustomize@v1
         with:
           kustomize-version: "4.4.0"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
       - name: Update overlay with new image tag
         run: |
@@ -104,9 +107,8 @@ jobs:
           IMAGE: ${{ inputs.image }}
           TAG: ${{ github.sha }}
 
-      - uses: actionsx/prettier@master
-        with:
-          args: --write ${{ steps.argocd.outputs.overlay }}/kustomization.yml
+      - name: Format updated overlay
+        run: npx --yes prettier@3.6.2 --write ${{ steps.argocd.outputs.overlay }}/kustomization.yml
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
