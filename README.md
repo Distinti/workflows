@@ -1,5 +1,11 @@
 # Description
 
+> **Deprecated:** do not add new consumers. Distinti backend services are being
+> migrated to the private `Distinti/backend-workflows` release pipeline. This
+> repository remains operational only for existing callers during the staged
+> migration and will be archived after the organization-wide caller audit is
+> clean.
+
 Repository for general workflows in the getprotocolab repo that handles CI/CD tasks
 
 ## How to use
