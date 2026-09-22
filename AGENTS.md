@@ -134,8 +134,3 @@ dev-stack (nothing to deploy).
 - This repo's own PR CI is `prettier --check .` — keep this file
   prettier-formatted.
 
-## CI / lint
-
-This `AGENTS.md` is checked by the meta-repo's `scripts/lint_claude_md.py`,
-which verifies every backtick-quoted local filename in a `AGENTS.md` actually
-exists on disk (prevents nav drift when humans rename files).
